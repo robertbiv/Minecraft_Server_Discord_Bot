@@ -1,0 +1,30 @@
+apply plugin: 'java'
+
+
+group 'com.github.b1winner'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'org.javacord:javacord:3.5.0'
+    implementation group: 'org.glavo', name: 'rcon-java', version: '2.0.2'
+}
+
+jar {
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        //configurations.implementation.collect {it.isDirectory() ? it : zipTree(it) }
+    }
+    manifest {
+        attributes "Main-Class": "com.github.b1winner.Main"
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+}
